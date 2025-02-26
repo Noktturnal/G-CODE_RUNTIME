@@ -1,0 +1,205 @@
+G0  - Rapid positioning
+G1  - Linear interpolation (cutting)
+    X, Y, Z – Final position coordinates.
+    F – Feed rate (how fast the tool is moving).
+G2  - Circular interpolation clockwise
+    I, J, K – These are the offsets from the starting point to the center of the circle in the X, Y, and Z directions, respectively.
+    R – Radius of the arc (alternative to I, J, K).
+    X, Y, Z – Final destination coordinates (end of the arc).
+    F – Feed rate for the movement.
+G3  - Circular interpolation counterclockwise
+    I, J, K – Same as G2 (offsets to the center of the circle).
+    R – Radius (alternative to I, J, K).
+    X, Y, Z – Final destination coordinates (end of the arc).
+    F – Feed rate.
+G4  - Dwell (pause for a specific time or distance)
+    P/X – Dwell time in seconds.
+    R – Optional dwell time in milliseconds (depending on the controller).
+G5  - Spline interpolation
+G6  - Non-uniform rational B-spline (NURBS)
+G7  - Cylindrical coordinate system
+G8  - Ball screw mode
+G9  - Exact stop mode
+G10 - Programmable offset (tool offset)
+G11 - Cancel programmable tool offset
+G12 - Circular pocket milling clockwise
+    I, J, K – Center offsets for the circle.
+    R – Radius of the pocket.
+    X, Y, Z – Final end point coordinates for the pocket.
+    F – Feed rate.
+G13 - Circular pocket milling counterclockwise
+    I, J, K – Center offsets for the circle.
+    R – Radius of the pocket.
+    X, Y, Z – Final end point coordinates for the pocket.
+    F – Feed rate.
+G14 - Spiral interpolation clockwise
+G15 - Cancel spiral interpolation
+G16 - Polar coordinate interpolation
+G17 - Select XY plane for circular movements
+G18 - Select ZX plane for circular movements
+G19 - Select YZ plane for circular movements
+G20 - Programming in inches
+G21 - Programming in millimeters
+G22 - Activate safety program
+G23 - Deactivate safety program
+G24 - Activate automatic tool change program
+G25 - Deactivate automatic tool change program
+G26 - Activate reverse motion mode
+G27 - Reference point check
+G28 - Return to home position
+G29 - Return to home position from another position
+G30 - Return to second home position
+G31 - Probe function (touch probe)
+G32 - Thread cutting
+    F – Thread pitch (the distance between threads).
+    X – Final X coordinate for the thread's end.
+    Z – Final Z coordinate for the thread’s end.
+    P – Optional spring passes (to add extra passes for finishing the thread).
+    R – Radial engagement depth (if applicable).
+    S – Spindle speed.
+G33 - Thread cutting with a constant pitch
+    F – Thread pitch.
+    X – Final X coordinate for the thread’s end.
+    Z – Final Z coordinate.
+    P – Spring pass for smoother threading.
+    S – Spindle speed.
+    R – Radial depth of cut.
+G34 - Thread cutting with variable pitch
+G35 - Special profiling
+G36 - Automatic threading
+G37 - Tool wear compensation
+G38 - Tool diameter compensation
+G39 - Automatic entry control
+G40 - Cancel tool radius compensation
+G41 - Tool radius compensation left
+G42 - Tool radius compensation right
+G43 - Tool length compensation positive
+G44 - Tool length compensation negative
+G45 - Tool offset increase
+G46 - Tool offset decrease
+G47 - Extended tool offset
+G48 - Tool setting to zero
+G49 - Cancel tool length compensation
+G50 - Cancel scaling
+G51 - Scaling factor on
+G52 - Local coordinate system setting
+G53 - Cancel local coordinate system
+G54 - Select coordinate system 1
+G55 - Select coordinate system 2
+G56 - Select coordinate system 3
+G57 - Select coordinate system 4
+G58 - Select coordinate system 5
+G59 - Select coordinate system 6
+G60 - Fixed point measurement mode
+G61 - Exact stop mode (high precision)
+G62 - Automatic corner override
+G63 - High-speed machining mode
+G64 - Default cutting mode (continuous motion)
+G65 - Subprogram call
+G66 - Modal subprogram call
+G67 - Cancel modal subprogram call
+G68 - Coordinate rotation
+G69 - Cancel coordinate rotation
+G70 - Finish turning cycle
+G71 - Rough turning cycle
+G72 - Finishing cycle for external threads
+G73 - Peck drilling cycle
+G74 - Left-hand thread cutting
+G75 - Right-hand thread cutting
+G76 - Fine boring cycle
+I – Initial cutting depth.
+    J – Final cutting depth.
+    K – Finishing pass depth.
+    P – Pass parameters (e.g., roughing cycle).
+    Q – Minimum cutting depth for each pass.
+    F – Feed rate.
+G77 - Fixed cycle for lathe
+G78 - Internal threading
+G79 - Copy milling cycle
+G80 - Cancel canned cycle
+G81 - Drilling cycle
+    X, Y, Z – Coordinates of the hole (final position).
+    R – Retract height.
+    Z – Depth of the hole.
+    F – Feed rate.
+G82 - Drilling cycle with dwell
+G83 - Peck drilling cycle
+    X, Y, Z – Hole coordinates.
+    R – Retract height (how far the tool pulls out).
+    Z – Final depth of the hole.
+    Q – Peck depth (the amount of depth per pass).
+    F – Feed rate.
+    L – Number of pecks (how many cycles to break the hole into smaller depth sections).
+G84 - Tapping cycle
+    X, Y, Z – Coordinates of the hole (final position).
+    R – Retract height.
+    Z – Depth of the hole for tapping.
+    F – Feed rate (tapping speed).
+G85 - Boring cycle with no dwell
+    X, Y, Z – Final coordinates.
+    R – Retract height (safe distance).
+    Z – Boring depth.
+    F – Feed rate.
+G86 - Boring cycle with spindle stop
+    X, Y, Z – Final coordinates.
+    R – Retract height (safe distance).
+    Z – Boring depth.
+    F – Feed rate.
+G87 - Back boring cycle
+G88 - Boring cycle with manual retraction
+G89 - Boring cycle with dwell
+G90 - Absolute programming
+G91 - Incremental programming
+G92 - Spindle speed override
+G93 - Inverse time feed rate
+G94 - Feed per minute (FPM)
+G95 - Feed per revolution (FPR)
+G96 - Constant cutting speed
+G97 - Cancel constant cutting speed
+G98 - Return to initial point after cycle
+G99 - Return to initial point after drilling cycle
+
+M0   - Program stop
+M1   - Optional program stop
+M2   - Program end
+M3   - Spindle on (clockwise)
+M4   - Spindle on (counterclockwise)
+M5   - Spindle stop
+M6   - Tool change
+M7   - Mist coolant on
+M8   - Flood coolant on
+M9   - Coolant off
+M10  - Chuck open
+M11  - Chuck close
+M12  - Automatic tool changer on
+M13  - Automatic tool changer off
+M14  - Move to home position
+M15  - Spindle speed override
+M16  - Tool presetting function
+M17  - End of canned cycle
+M18  - Cancel canned cycle
+M19  - Spindle orientation
+M20  - Activate tool setter
+M21  - Deactivate tool setter
+M22  - Activate rotary axis
+M23  - Deactivate rotary axis
+M24  - Start coolant
+M25  - Stop coolant
+M26  - Reset cycle
+M27  - Tool breakage detection on
+M28  - Tool breakage detection off
+M29  - Activate chip conveyor
+M30  - End of program and reset
+M31  - Reset tool offset
+M32  - Tool life monitoring
+M33  - Spindle warm-up
+M34  - Program resume
+M35  - Program pause
+M36  - Program run
+M37  - Pre-set tool offset
+M38  - Cancel tool offset
+M39  - Start automatic measurement
+M40  - Cancel automatic measurement
+M41  - Auto-tool length compensation
+M42  - Activate tool wear compensation
+M43  - Deactivate tool wear compensation
