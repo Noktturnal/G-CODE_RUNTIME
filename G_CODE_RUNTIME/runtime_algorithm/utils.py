@@ -1,6 +1,7 @@
 import re
 import os
 import math
+import sys
 
 # Configurable parameters for the machine
 MACHINE_TYPE = 'lathe'  # Options: 'mill' or 'lathe'
@@ -231,10 +232,7 @@ def analyze_gcode(lines):
 
     return total_time, g0_time, g1_time, tool_times
 
-def main():
-    # Přímo definovaná cesta k souboru
-    file_path = "/home/noktturnal/Documents/Distanční sloupek - Bahoza/Distanční sloupek/Primár/O2001"
-    
+def main(file_path):
     print(f"Analyzing G-code file: {file_path}")
     print(f"Machine type: {MACHINE_TYPE}, Default feed mode: {DEFAULT_FEED_MODE}")
     
@@ -262,4 +260,8 @@ def main():
         print(f"Error during execution: {str(e)}")
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) != 2:
+        print("Usage: python utils.py <file_path>")
+    else:
+        file_path = sys.argv[1]
+        main(file_path)
