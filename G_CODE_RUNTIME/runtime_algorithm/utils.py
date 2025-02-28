@@ -75,6 +75,8 @@ def analyze_gcode(lines):
     print(f"Feed mode: {feed_mode}")
     print(f"Machine type: {MACHINE_TYPE}\n")
 
+    g76_params = {}
+
     for line_number, line in enumerate(lines, 1):
         try:
             line = line.strip()
@@ -182,6 +184,46 @@ def analyze_gcode(lines):
                 if speed_match:
                     spindle_speed = int(speed_match.group(1))
                     print(f"Spindle speed set to: {spindle_speed} RPM")
+
+            # G76 threading cycle
+            elif re.search(r'G76', line):
+                if 'P' in line and 'Q' in line and 'R' in line:
+                    # First G76 line
+                    p_match = re.search(r'P(\d+)', line)
+                    q_match = re.search(r'Q(\d+)', line)
+                    r_match = re.search(r'R([-+]?\d*\.?\d+)', line)
+                    if p_match and q_match and r_match:
+                        g76_params['P'] = int(p_match.group(1))
+                        g76_params['Q'] = int(q_match.group(1)) / 1000  # Convert microns to mm
+                        g76_params['R'] = float(r_match.group(1))
+                        print(f"G76 first line parameters: P={g76_params['P']}, Q={g76_params['Q']}, R={g76_params['R']}")
+                elif 'X' in line and 'Z' in line and 'P' in line and 'Q' in line and 'R' in line and 'F' in line:
+                    # Second G76 line
+                    x_match = re.search(r'X([-+]?\d*\.?\d+)', line)
+                    z_match = re.search(r'Z([-+]?\d*\.?\d+)', line)
+                    p_match = re.search(r'P(\d+)', line)
+                    q_match = re.search(r'Q(\d+)', line)
+                    r_match = re.search(r'R([-+]?\d*\.?\d+)', line)
+                    f_match = re.search(r'F([-+]?\d*\.?\d+)', line)
+                    if x_match and z_match and p_match and q_match and r_match and f_match:
+                        x_value = float(x_match.group(1))
+                        z_value = float(z_match.group(1))
+                        p_value = int(p_match.group(1)) / 1000  # Convert microns to mm
+                        q_value = int(q_match.group(1)) / 1000  # Convert microns to mm
+                        r_value = float(r_match.group(1))
+                        f_value = float(f_match.group(1))
+                        print(f"G76 second line parameters: X={x_value}, Z={z_value}, P={p_value}, Q={q_value}, R={r_value}, F={f_value}")
+
+                        # Calculate threading time
+                        threading_length = abs(z_value - current_position['Z'])
+                        threading_passes = int(g76_params['P'] / g76_params['Q'])
+                        threading_time = threading_length / (f_value * spindle_speed / 60) * threading_passes
+                        total_time += threading_time
+                        g1_time += threading_time  # Add threading time to G1 time
+                        if current_tool:
+                            tool_times[current_tool]['G1'] += threading_time  # Add threading time to tool's G1 time
+                            tool_times[current_tool]['total'] += threading_time
+                        print(f"Threading time: {threading_time:.4f} seconds")
 
         except Exception as e:
             print(f"Error processing line {line_number}: {str(e)}")
