@@ -1,0 +1,7 @@
+<!-- filepath: /home/noktturnal/PycharmProjects/G-CODE_RUNTIME/G_CODE_RUNTIME/G_CODE_RUNTIME/templates/registration/signup.html -->
+<h2>Sign Up</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Sign Up</button>
+</form>
