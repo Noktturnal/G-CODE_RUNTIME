@@ -244,12 +244,12 @@ def main(file_path):
             
         total_time, g0_time, g1_time, tool_times = analyze_gcode(lines)
 
-        print("\n===== RESULTS =====")
+        print("\n            ===== RESULTS =====")
         print(f"Total runtime: {total_time:.4f} seconds ({total_time/60:.2f} minutes)")
         print(f"G0 time: {g0_time:.4f} seconds ({g0_time/60:.2f} minutes)")
         print(f"G1 time: {g1_time:.4f} seconds ({g1_time/60:.2f} minutes)")
         
-        print("\n===== TOOL TIMES =====")
+        print("\n           ===== TOOL TIMES =====")
         for tool, times in tool_times.items():
             print(f"Tool {tool}:")
             print(f"  G0 time: {times['G0']:.4f} seconds ({times['G0']/60:.2f} minutes)")

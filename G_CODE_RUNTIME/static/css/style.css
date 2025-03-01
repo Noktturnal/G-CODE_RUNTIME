@@ -16,7 +16,12 @@ body {
     padding: 10px 0;
     box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
     display: flex;
-    justify-content: center;
+    justify-content: space-between; /* Change to space-between to align left and right sections */
+    align-items: center; /* Center items vertically */
+}
+
+.navbar-left {
+    display: flex;
     gap: 20px;
 }
 
@@ -27,6 +32,32 @@ body {
 }
 
 .navbar a:hover {
+    color: #4b0082;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    color: #fff;
+}
+
+.navbar-right span {
+    margin-right: 10px;
+}
+
+.logout-link {
+    background: none;
+    border: none;
+    color: #00ffcc;
+    text-decoration: none;
+    cursor: pointer;
+    font: inherit;
+    font-weight: bold;
+    margin-left: 10px;
+    padding: 0; /* Remove padding */
+}
+
+.logout-link:hover {
     color: #4b0082;
 }
 

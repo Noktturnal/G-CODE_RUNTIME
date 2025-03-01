@@ -1,36 +1,18 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
-    <nav class="navbar">
-        <a href="{% url 'signup' %}">Register</a>
-        <a href="{% url 'login' %}">Login</a>
-    </nav>
-    <div class="container">
-        <h2>Upload File</h2>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Upload</button>
-        </form>
-        {% if results %}
-            <div class="results-container">
-                <h3>Results and Tool Times:</h3>
-                <pre class="results">{{ results }}</pre>
-            </div>
-        {% endif %}
-        <div class="description">
-            <h3>About This Application</h3>
-            <p>This application processes G-code files and provides detailed analysis of the runtime and tool usage.</p>
-            <h3>Accepted File Types</h3>
-            <p>The application accepts files with the following extensions: .gcode, .nc, .tap, .txt</p>
-        </div>
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h2>Upload File</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+</form>
+{% if results %}
+    <div class="results-container">
+        <h3>Results and Tool Times:</h3>
+        <pre class="results">{{ results }}</pre>
     </div>
-</body>
-</html>
+{% endif %}
+{% endblock %}

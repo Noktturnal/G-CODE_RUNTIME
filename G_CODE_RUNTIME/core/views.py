@@ -1,11 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 from .forms import UploadFileForm
 import subprocess
 import os
-import matplotlib.pyplot as plt
-import io
-import base64
 
 def home_view(request):
     if request.method == 'POST':
@@ -20,9 +16,18 @@ def home_view(request):
     return render(request, 'home.html', {'form': form})
 
 def process_file(file):
-    # Your file processing logic here
-    results = "Processed results"
-    tool_times = {}
+    # Save the uploaded file to a temporary location
+    temp_file_path = '/tmp/uploaded_file'
+    with open(temp_file_path, 'wb+') as destination:
+        for chunk in file.chunks():
+            destination.write(chunk)
+    
+    # Run the algorithm and capture the output
+    result = subprocess.run(['python3', '/home/noktturnal/PycharmProjects/G-CODE_RUNTIME/G_CODE_RUNTIME/runtime_algorithm/utils.py', temp_file_path], capture_output=True, text=True)
+    output = result.stdout
+
+    # Extract results and tool times from the output
+    results, tool_times = extract_results_and_tool_times(output)
     return results, tool_times
 
 def extract_results_and_tool_times(output):
@@ -43,28 +48,11 @@ def extract_results_and_tool_times(output):
                     tool_times[tool] = total_time
     return '\n'.join(results), tool_times
 
-def generate_pie_chart(tool_times):
-    if not tool_times:
-        return None  # Return None if tool_times is empty
-
-    labels = list(tool_times.keys())
-    sizes = list(tool_times.values())
-    colors = plt.cm.Paired(range(len(tool_times)))
-
-    fig, ax = plt.subplots(figsize=(10, 6), dpi=100)  # Set figure size and DPI
-    ax.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=140)
-    ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-
-    buf = io.BytesIO()
-    plt.savefig(buf, format='png')
-    buf.seek(0)
-    string = base64.b64encode(buf.read())
-    uri = 'data:image/png;base64,' + string.decode('utf-8')
-    plt.close(fig)  # Close the figure to free memory
-    return uri
-
 def register_view(request):
     return render(request, 'users/signup.html')
 
 def login_view(request):
     return render(request, 'users/login.html')
+
+def about_view(request):
+    return render(request, 'about.html')
