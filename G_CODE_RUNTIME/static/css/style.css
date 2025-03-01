@@ -13,16 +13,22 @@ body {
 .navbar {
     width: 100%;
     background-color: #1a1a1a;
-    padding: 10px 0;
+    padding: 10px 40px; /* Adjust the padding value to bring items closer to the center */
     box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
     display: flex;
-    justify-content: space-between; /* Change to space-between to align left and right sections */
+    justify-content: space-between; /* Align left and right sections */
     align-items: center; /* Center items vertically */
 }
 
 .navbar-left {
     display: flex;
     gap: 20px;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    color: #fff;
 }
 
 .navbar a {
@@ -33,12 +39,6 @@ body {
 
 .navbar a:hover {
     color: #4b0082;
-}
-
-.navbar-right {
-    display: flex;
-    align-items: center;
-    color: #fff;
 }
 
 .navbar-right span {

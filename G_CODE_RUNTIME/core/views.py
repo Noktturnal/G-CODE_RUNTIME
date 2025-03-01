@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .forms import UploadFileForm, TaskForm
-from .models import Project, Task, UserProfile
+from .forms import UploadFileForm, TaskForm, UserProfileForm
+from .models import Project, Task, UserProfile, AnalysisResult
 import subprocess
 import os
 
@@ -12,13 +12,21 @@ def home_view(request):
         if form.is_valid():
             # Process the uploaded file
             file = request.FILES['file']
-            results, tool_times = process_file(file)
+            results, tool_times = process_file(file, request.user)
+            if 'save_results' in request.POST:
+                # Save the analysis result to the database
+                AnalysisResult.objects.create(
+                    user=request.user,
+                    file_name=file.name,
+                    results=results,
+                    tool_times=tool_times
+                )
             return render(request, 'home.html', {'form': form, 'results': results, 'tool_times': tool_times})
     else:
         form = UploadFileForm()
     return render(request, 'home.html', {'form': form})
 
-def process_file(file):
+def process_file(file, user):
     """Process the uploaded file and extract results and tool times."""
     # Save the uploaded file to a temporary location
     temp_file_path = '/tmp/uploaded_file'
@@ -32,6 +40,7 @@ def process_file(file):
 
     # Extract results and tool times from the output
     results, tool_times = extract_results_and_tool_times(output)
+
     return results, tool_times
 
 def extract_results_and_tool_times(output):
@@ -88,7 +97,8 @@ def task_detail_view(request, task_id):
 def user_profile_view(request, user_id):
     """View for user profile."""
     user_profile = get_object_or_404(UserProfile, user_id=user_id)
-    return render(request, 'user_profile.html', {'user_profile': user_profile})
+    analysis_results = AnalysisResult.objects.filter(user=user_profile.user)
+    return render(request, 'user_profile.html', {'user_profile': user_profile, 'analysis_results': analysis_results})
 
 @login_required
 def create_task_view(request, project_id):
@@ -104,3 +114,12 @@ def create_task_view(request, project_id):
     else:
         form = TaskForm()
     return render(request, 'create_task.html', {'form': form, 'project': project})
+
+@login_required
+def delete_analysis_result_view(request, result_id):
+    """View for deleting an analysis result."""
+    analysis_result = get_object_or_404(AnalysisResult, id=result_id, user=request.user)
+    if request.method == 'POST':
+        analysis_result.delete()
+        return redirect('user_profile', user_id=request.user.id)
+    return render(request, 'delete_analysis_result.html', {'analysis_result': analysis_result})

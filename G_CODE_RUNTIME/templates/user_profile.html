@@ -3,10 +3,28 @@
 {% block title %}User Profile{% endblock %}
 
 {% block content %}
-<h2>User Profile</h2>
-<p>Username: {{ user_profile.user.username }}</p>
-<p>Bio: {{ user_profile.bio }}</p>
-{% if user_profile.profile_picture %}
-    <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture">
-{% endif %}
+<div class="container">
+    <h2>User Profile</h2>
+    <p>Username: {{ user_profile.user.username }}</p>
+    <p>Email: {{ user_profile.user.email }}</p>
+        <h3>Saved Analysis Results</h3>
+    <p>Debug: {{ analysis_results }}</p> <!-- Debug statement -->
+    {% if analysis_results %}
+        <ul>
+            {% for result in analysis_results %}
+                <li>
+                    <p>File Name: {{ result.file_name }}</p>
+                    <pre>{{ result.results }}</pre>
+                    <p>Tool Times: {{ result.tool_times }}</p>
+                    <form method="post" action="{% url 'delete_analysis_result' result.id %}">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No analysis results found.</p>
+    {% endif %}
+</div>
 {% endblock %}

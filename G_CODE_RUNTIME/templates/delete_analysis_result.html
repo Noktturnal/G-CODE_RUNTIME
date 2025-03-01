@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Analysis Result{% endblock %}
+
+{% block content %}
+<h2>Delete Analysis Result</h2>
+<p>Are you sure you want to delete the analysis result for <strong>{{ analysis_result.file_name }}</strong>?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, delete</button>
+    <a href="{% url 'user_profile' analysis_result.user.id %}">Cancel</a>
+</form>
+{% endblock %}
