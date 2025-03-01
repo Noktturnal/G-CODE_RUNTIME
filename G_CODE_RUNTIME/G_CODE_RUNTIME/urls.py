@@ -9,4 +9,5 @@ urlpatterns = [
     path('about/', about_view, name='about'),
     path('users/', include('users.urls')),
     path('logout/', LogoutView.as_view(next_page='home'), name='logout'),  # Use Django's built-in LogoutView
+    path('', include('core.urls')),
 ]
