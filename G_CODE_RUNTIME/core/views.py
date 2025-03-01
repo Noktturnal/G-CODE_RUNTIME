@@ -11,17 +11,24 @@ def home_view(request):
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             # Process the uploaded file
-            file = request.FILES['file']
-            results, tool_times = process_file(file, request.user)
-            if 'save_results' in request.POST:
+            file = request.FILES.get('file')
+            results, tool_times = process_file(file, request.user) if file else ("", {})
+            print(f"Results: {results}")
+            print(f"Tool Times: {tool_times}")
+            if form.cleaned_data.get('save_results') and results:
                 # Save the analysis result to the database
-                AnalysisResult.objects.create(
+                analysis_result = AnalysisResult.objects.create(
                     user=request.user,
-                    file_name=file.name,
+                    file_name=file.name if file else "",
                     results=results,
-                    tool_times=tool_times
+                    tool_times=tool_times if tool_times else None
                 )
+                print(f"Saved AnalysisResult: {analysis_result}")
+            else:
+                print("Save results not in POST or results are empty")
             return render(request, 'home.html', {'form': form, 'results': results, 'tool_times': tool_times})
+        else:
+            print("Form is not valid")
     else:
         form = UploadFileForm()
     return render(request, 'home.html', {'form': form})

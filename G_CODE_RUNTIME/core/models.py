@@ -46,10 +46,10 @@ class Tag(models.Model):
         return self.name
 
 class AnalysisResult(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    file_name = models.CharField(max_length=255)
-    results = models.TextField()
-    tool_times = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    file_name = models.CharField(max_length=255, null=True, blank=True)
+    results = models.TextField(null=True, blank=True)
+    tool_times = models.JSONField(null=True, blank=True)
 
     def __str__(self):
-        return self.file_name
+        return f"{self.user.username} - {self.file_name}" if self.user else "No User"

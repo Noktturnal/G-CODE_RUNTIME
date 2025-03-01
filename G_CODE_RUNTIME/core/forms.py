@@ -2,7 +2,8 @@ from django import forms
 from .models import Task, UserProfile
 
 class UploadFileForm(forms.Form):
-    file = forms.FileField()
+    file = forms.FileField(label='Select a file', required=False)
+    save_results = forms.BooleanField(required=False, initial=False, widget=forms.HiddenInput())
 
 class TaskForm(forms.ModelForm):
     class Meta:

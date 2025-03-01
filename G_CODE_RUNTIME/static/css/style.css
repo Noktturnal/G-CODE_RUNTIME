@@ -10,15 +10,35 @@ body {
     text-align: center; /* Center text in the body */
 }
 
+/* Centrování navbaru */
+.navbar-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 .navbar {
     width: 100%;
+    max-width: 1400px; /* Uprav dle potřeby */
     background-color: #1a1a1a;
-    padding: 10px 40px; /* Adjust the padding value to bring items closer to the center */
+    padding: 10px 20px;
     box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
     display: flex;
-    justify-content: space-between; /* Align left and right sections */
-    align-items: center; /* Center items vertically */
+    justify-content: space-between;
+    align-items: center;
 }
+
+/* Centrování hlavního obsahu */
+.container {
+    width: 100%;
+    max-width: 1200px; /* Musí odpovídat navbaru */
+    margin: 20px auto; /* Středování */
+    padding: 20px;
+    background-color: #1a1a1a;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
+    border-radius: 8px;
+}
+
 
 .navbar-left {
     display: flex;
@@ -43,7 +63,14 @@ body {
 
 .navbar-right span {
     margin-right: 10px;
+    font-weight:100;
+    color:#00ffcc;
 }
+
+.navbar-right a {
+    margin-right: 10px; /* Přidá mezeru mezi Profile a Logged in as */
+}
+
 
 .logout-link {
     background: none;
@@ -61,15 +88,6 @@ body {
     color: #4b0082;
 }
 
-.container {
-    width: 100%;
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #1a1a1a;
-    box-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
-    border-radius: 8px;
-}
 
 h2 {
     text-align: center;
