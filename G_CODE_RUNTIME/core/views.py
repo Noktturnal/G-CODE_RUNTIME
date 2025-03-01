@@ -6,7 +6,10 @@ import subprocess
 import os
 
 def home_view(request):
-    """View for the home page."""
+    """
+    View for the home page.
+    Handles file upload and processing.
+    """
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
@@ -34,7 +37,9 @@ def home_view(request):
     return render(request, 'home.html', {'form': form})
 
 def process_file(file, user):
-    """Process the uploaded file and extract results and tool times."""
+    """
+    Process the uploaded file and extract results and tool times.
+    """
     # Save the uploaded file to a temporary location
     temp_file_path = '/tmp/uploaded_file'
     with open(temp_file_path, 'wb+') as destination:
@@ -51,7 +56,9 @@ def process_file(file, user):
     return results, tool_times
 
 def extract_results_and_tool_times(output):
-    """Extract results and tool times from the algorithm output."""
+    """
+    Extract results and tool times from the algorithm output.
+    """
     results = []
     tool_times = {}
     lines = output.split('\n')
@@ -70,46 +77,62 @@ def extract_results_and_tool_times(output):
     return '\n'.join(results), tool_times
 
 def register_view(request):
-    """View for user registration."""
+    """
+    View for user registration.
+    """
     return render(request, 'users/signup.html')
 
 def login_view(request):
-    """View for user login."""
+    """
+    View for user login.
+    """
     return render(request, 'users/login.html')
 
 def about_view(request):
-    """View for the about page."""
+    """
+    View for the about page.
+    """
     return render(request, 'about.html')
 
 @login_required
 def project_list_view(request):
-    """View for listing projects."""
+    """
+    View for listing projects.
+    """
     projects = Project.objects.filter(owner=request.user)
     return render(request, 'project_list.html', {'projects': projects})
 
 @login_required
 def task_list_view(request, project_id):
-    """View for listing tasks in a project."""
+    """
+    View for listing tasks in a project.
+    """
     project = get_object_or_404(Project, id=project_id)
     tasks = Task.objects.filter(project=project)
     return render(request, 'task_list.html', {'project': project, 'tasks': tasks})
 
 @login_required
 def task_detail_view(request, task_id):
-    """View for task details."""
+    """
+    View for task details.
+    """
     task = get_object_or_404(Task, id=task_id)
     return render(request, 'task_detail.html', {'task': task})
 
 @login_required
 def user_profile_view(request, user_id):
-    """View for user profile."""
+    """
+    View for user profile.
+    """
     user_profile = get_object_or_404(UserProfile, user_id=user_id)
     analysis_results = AnalysisResult.objects.filter(user=user_profile.user)
     return render(request, 'user_profile.html', {'user_profile': user_profile, 'analysis_results': analysis_results})
 
 @login_required
 def create_task_view(request, project_id):
-    """View for creating a new task."""
+    """
+    View for creating a new task.
+    """
     project = get_object_or_404(Project, id=project_id)
     if request.method == 'POST':
         form = TaskForm(request.POST)
@@ -124,7 +147,9 @@ def create_task_view(request, project_id):
 
 @login_required
 def delete_analysis_result_view(request, result_id):
-    """View for deleting an analysis result."""
+    """
+    View for deleting an analysis result.
+    """
     analysis_result = get_object_or_404(AnalysisResult, id=result_id, user=request.user)
     if request.method == 'POST':
         analysis_result.delete()

@@ -1,0 +1,7 @@
+{
+    "python.testing.pytestArgs": [
+        "G_CODE_RUNTIME"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}
